@@ -1,5 +1,10 @@
 #!/bin/bash
 
+
+# gpu ids
+DEVICE_IDS=0,1,2,3
+export CUDA_VISIBLE_DEVICES=$DEVICE_IDS
+
 python main.py \
     ctdet \
     --exp_id person \
@@ -7,6 +12,6 @@ python main.py \
     --arch dlav0_34 \
     --down_ratio 8 \
     --batch_size 128 \
-    --gpus 0,1,2,3 \
+    --gpus ${DEVICE_IDS} \
     --num_epochs 200 \
     --val_intervals 50
