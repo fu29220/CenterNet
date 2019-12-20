@@ -205,7 +205,9 @@ class Tree(nn.Module):
     def forward(self, x, residual=None, children=None):
         children = [] if children is None else children
         bottom = self.downsample(x) if self.downsample else x
-        residual = self.project(bottom) if self.project else bottom
+        #  residual = self.project(bottom) if self.project else bottom
+        residual = self.project(
+            bottom) if self.project and self.levels == 1 else bottom
         if self.level_root:
             children.append(bottom)
         x1 = self.tree1(x, residual)
@@ -556,16 +558,16 @@ class DLASeg(nn.Module):
                   nn.Conv2d(channels[self.first_level], head_conv,
                     kernel_size=3, padding=1, bias=True),
                   nn.ReLU(inplace=True),
-                  nn.Conv2d(head_conv, classes, 
-                    kernel_size=1, stride=1, 
+                  nn.Conv2d(head_conv, classes,
+                    kernel_size=1, stride=1,
                     padding=0, bias=True))
                 if 'hm' in head:
                     fc[-1].bias.data.fill_(-2.19)
                 else:
                     fill_fc_weights(fc)
             else:
-                fc = nn.Conv2d(channels[self.first_level], classes, 
-                  kernel_size=1, stride=1, 
+                fc = nn.Conv2d(channels[self.first_level], classes,
+                  kernel_size=1, stride=1,
                   padding=0, bias=True)
                 if 'hm' in head:
                     fc.bias.data.fill_(-2.19)
@@ -640,8 +642,8 @@ def dla169up(classes, pretrained_base=None, **kwargs):
 '''
 
 def get_pose_net(num_layers, heads, head_conv=256, down_ratio=4):
-  model = DLASeg('dla{}'.format(num_layers), heads,
-                 pretrained=True,
-                 down_ratio=down_ratio,
-                 head_conv=head_conv)
-  return model
+    model = DLASeg('dla{}'.format(num_layers), heads,
+                   pretrained=True,
+                   down_ratio=down_ratio,
+                   head_conv=head_conv)
+    return model
