@@ -13,6 +13,7 @@ from .dataset.kitti import KITTI
 from .dataset.coco_hp import COCOHP
 
 from .dataset.wider_face import WIDERFACE
+from .dataset.coco_person import COCOPERSON
 
 
 dataset_factory = {
@@ -20,7 +21,8 @@ dataset_factory = {
   'pascal': PascalVOC,
   'kitti': KITTI,
   'coco_hp': COCOHP,
-  'wider_face': WIDERFACE
+  'wider_face': WIDERFACE,
+  'coco_person': COCOPERSON
 }
 
 _sample_factory = {
