@@ -62,6 +62,10 @@ class Debugger(object):
       self.focal_length = 721.5377
       self.W = 1242
       self.H = 375
+    elif dataset == 'coco_person':
+      self.names = ['person']
+    elif dataset == 'wider_face':
+      self.names = ['face']
     num_classes = len(self.names)
     self.down_ratio=down_ratio
     # for bird view
